@@ -1,0 +1,11 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Palmeira",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "neat-csv": "^5.2.0"
+  }
+}
