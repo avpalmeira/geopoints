@@ -1,10 +1,12 @@
-const neatCsv = require('neat-csv');
-const fs = require('fs');
+const express = require('express');
 
-fs.readFile('./_tests/GeoPoints.csv', async (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log(await neatCsv(data));
+const app = express();
+
+app.use(express.urlencoded({ extended: false }));
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
+
+app.listen(3000);
+
