@@ -6,7 +6,5 @@ module.exports = (sequelize, DataTypes) => {
     filePath: DataTypes.STRING,
   });
 
-  GeoLocationBatch.hasMany(GeoLocation);
-
   return GeoLocationBatch;
 }

@@ -11,6 +11,24 @@ module.exports = {
          allowNull: false,
          type: DataTypes.GEOMETRY('POINT'),
        },
+       createdAt: {
+         allowNull: false,
+         type: DataTypes.DATE,
+       },
+       updatedAt: {
+         allowNull: false,
+         type: DataTypes.DATE,
+       },
+       geoLocationBatchId: {
+         allowNull: true,
+         type: DataTypes.INTEGER,
+         references: {
+           model: {
+             tableName: 'GeoLocationBatches',
+           },
+           key: 'id',
+         },
+       },
      });
   },
 

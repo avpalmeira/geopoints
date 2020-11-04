@@ -9,7 +9,7 @@
     "express": "^4.17.1",
     "neat-csv": "^5.2.0",
     "pg": "^8.4.2",
-    "sequelize": "^6.3.5"
+    "sequelize": "5.22.3"
   },
   "devDependencies": {
     "sequelize-cli": "^6.2.0"

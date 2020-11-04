@@ -5,7 +5,5 @@ module.exports = (sequelize, DataTypes) => {
     geoLocation: DataTypes.GEOMETRY('POINT')
   });
 
-  GeoLocation.belongsTo(GeoLocationBatch);
-
   return GeoLocation;
 }
