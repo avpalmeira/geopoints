@@ -19,7 +19,26 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.post('/import-data', async (req, res) => {
+app.get('/geobatches', async (req, res) => {
+  const allBatches = await GeoLocationBatch.findAll();
+  const response = [];
+
+  allBatches.forEach((batch, index) => {
+    response[index] = {
+      id: batch.dataValues.id,
+      name: batch.dataValues.name,
+      filePath: batch.dataValues.filePath,
+    };
+  });
+  res.send(response);
+});
+
+app.get('/geobatches/:id', async (req, res) => {
+  const batchId = req.params.id;
+  res.send(batchId);
+});
+
+app.post('/importdata', async (req, res) => {
   // todo: check if path is valid
   const filePath = req.body.filePath;
   const name = req.body.name;
@@ -31,6 +50,7 @@ app.post('/import-data', async (req, res) => {
   // todo: move to separate method
   getCsv(filePath).then(rows => {
     rows.forEach(async (point) => {
+      console.log(point);
       // save data to database
       await newLocationBatch.createGeoLocation({
         geoLocation: {
