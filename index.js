@@ -8,16 +8,11 @@ const { GeoLocation, GeoLocationBatch } = require('./app/models');
 GeoLocationBatch.hasMany(GeoLocation, {
   foreignKey: 'geoLocationBatchId'
 });
-GeoLocation.belongsTo(GeoLocationBatch);
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
 app.get('/geobatches', async (req, res) => {
   const allBatches = await GeoLocationBatch.findAll();
@@ -35,7 +30,16 @@ app.get('/geobatches', async (req, res) => {
 
 app.get('/geobatches/:id', async (req, res) => {
   const batchId = req.params.id;
-  res.send(batchId);
+  const geoBatch = await GeoLocationBatch.findByPk(batchId);
+  const geoLocations = await geoBatch.getGeoLocations();
+  const response = [];
+
+  geoLocations.forEach((geoLocation, index) => {
+    response[index] = {
+      coordinates: geoLocation.dataValues.geoLocation.coordinates,
+    };
+  });
+  res.send(response);
 });
 
 app.post('/importdata', async (req, res) => {
