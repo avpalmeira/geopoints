@@ -10,6 +10,8 @@ GeoLocationBatch.hasMany(GeoLocation, {
   foreignKey: 'geoLocationBatchId'
 });
 
+const port = process.env.PORT || 3000;
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -75,7 +77,7 @@ app.post('/importdata', async (req, res) => {
 
 const server = http.Server(app);
 
-server.listen(443, () => {
-  console.log('Server running on port 443');
+server.listen(port, () => {
+  console.log('Server running!');
 });
 
