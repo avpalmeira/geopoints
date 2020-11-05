@@ -12,9 +12,8 @@
     "http": "^0.0.1-security",
     "neat-csv": "^5.2.0",
     "pg": "^8.4.2",
-    "sequelize": "5.22.3"
+    "sequelize": "5.22.3",
+    "sequelize-cli": "5.5.1"
   },
-  "devDependencies": {
-    "sequelize-cli": "^6.2.0"
-  }
+  "devDependencies": {}
 }
