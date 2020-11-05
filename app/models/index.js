@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const config = require('../../config/database.js');
+const config = process.env.DATABASE_URL || require('../../config/database.js');
 
 const db = {};
 const sequelize = new Sequelize(config);
