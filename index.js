@@ -1,5 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const http = require('http');
+const neatCsv = require('neat-csv');
+const fs = require('fs');
 
 const { GeoLocation, GeoLocationBatch } = require('./app/models');
 
@@ -17,22 +20,40 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-// just for testing
-const runCreateBatch = async () => {
-  const newBatch = { name: 'Testing New Batch', filePath: '/path/to/file.csv' };
-  const NewLocationBatch = await GeoLocationBatch.create( newBatch );
-  console.log("New Batch created!");
-  const point1 = { type: 'Point', coordinates: [100.0, 0.0] };
-  const point2 = { type: 'Point', coordinates: [105.0, 0.0] };
-  await NewLocationBatch.createGeoLocation({ geoLocation: point1} );
-  console.log("Point 1 created inside batch!");
-  await NewLocationBatch.createGeoLocation({ geoLocation: point2} );
-  console.log("Point 2 created inside batch!");
-  console.log("Number of points in batch:");
-  console.log(await NewLocationBatch.countGeoLocations());
-}
+app.post('/import-data', async (req, res) => {
+  // todo: check if path is valid
+  const filePath = req.body.filePath;
+  const name = req.body.name;
 
-runCreateBatch();
+  const newBatch = { name, filePath };
+  const newLocationBatch = await GeoLocationBatch.create( newBatch );
 
-// app.listen(3000);
+  // read data inside csv file
+  // todo: move to separate method
+  await fs.readFile(filePath, async (err, content) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    neatCsv(content).then((data) => {
+      data.forEach(async (point) => {
+        // save data to database
+        await newLocationBatch.createGeoLocation({
+          geoLocation: {
+            type: 'Point',
+            coordinates: [point['Latitude'], point['Longitude']],
+          }
+        });
+      });
+    });
+  });
+
+  res.send(newLocationBatch);
+});
+
+const server = http.Server(app);
+
+server.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
 
