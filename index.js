@@ -1,8 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
-const neatCsv = require('neat-csv');
-const fs = require('fs');
+const getCsv = require('get-csv');
 
 const { GeoLocation, GeoLocationBatch } = require('./app/models');
 
@@ -30,24 +29,17 @@ app.post('/import-data', async (req, res) => {
 
   // read data inside csv file
   // todo: move to separate method
-  await fs.readFile(filePath, async (err, content) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    neatCsv(content).then((data) => {
-      data.forEach(async (point) => {
-        // save data to database
-        await newLocationBatch.createGeoLocation({
-          geoLocation: {
-            type: 'Point',
-            coordinates: [point['Latitude'], point['Longitude']],
-          }
-        });
+  getCsv(filePath).then(rows => {
+    rows.forEach(async (point) => {
+      // save data to database
+      await newLocationBatch.createGeoLocation({
+        geoLocation: {
+          type: 'Point',
+          coordinates: [point['Latitude'], point['Longitude']],
+        }
       });
     });
   });
-
   res.send(newLocationBatch);
 });
 
