@@ -4,7 +4,7 @@
   "main": "index.js",
   "author": "Palmeira",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "node index.js"
   },
