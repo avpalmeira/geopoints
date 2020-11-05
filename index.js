@@ -16,6 +16,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.send('hello!');
+});
+
 app.get('/geobatches', async (req, res) => {
   const allBatches = await GeoLocationBatch.findAll();
   const response = [];
