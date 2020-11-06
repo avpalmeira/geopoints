@@ -24,13 +24,15 @@ O objetivo da aplicação web é possibilitar ao usuário inserir o caminho para
 
 ## Configuração de Banco de Dados
 
-Crie um usuário e defina sua senha no PosgreSQL:
+Crie um usuário e defina sua senha (987654) no PosgreSQL:
 
 ```
 sudo -u postgres createuser -s geopoints
 sudo -u postgres psql
 \password geopoints
 ```
+
+Você também pode escolher usar outra senha e inserir no arquivo `config/database.js`
 
 Execute as migrações com o Sequelize-CLI:
 
