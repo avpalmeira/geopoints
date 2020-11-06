@@ -15,7 +15,7 @@
     "start": "node index.js",
     "migrate": "npx sequelize db:migrate",
     "migrate:reset": "npx sequelize db:migrate:undo:all && npm run migrate",
-    "test": "NODE_ENV=test jest --testTimeout=10000",
+    "test": "NODE_ENV=test jest --silent --testTimeout=10000",
     "pretest": "NODE_ENV=test npm run migrate:reset"
   },
   "dependencies": {
