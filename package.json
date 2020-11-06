@@ -5,8 +5,18 @@
   "author": "Palmeira",
   "license": "MIT",
   "private": false,
+	"jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "migrate": "npx sequelize db:migrate",
+    "migrate:reset": "npx sequelize db:migrate:undo:all && npm run migrate",
+    "test": "NODE_ENV=test jest --testTimeout=10000",
+    "pretest": "NODE_ENV=test npm run migrate:reset"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -17,5 +27,8 @@
     "sequelize": "5.22.3",
     "sequelize-cli": "5.5.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.0.1"
+  }
 }
